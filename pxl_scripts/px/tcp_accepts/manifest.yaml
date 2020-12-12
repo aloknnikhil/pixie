@@ -1,0 +1,3 @@
+---
+short: TCP accepts
+long: Shows TCP connection accept counts in the cluster.
