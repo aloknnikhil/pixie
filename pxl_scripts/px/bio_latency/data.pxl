@@ -44,7 +44,7 @@ def bio_latency_func():
                       select=['time', 'pid', 'lat'])
 
     # Group-by PID (max latency)
-    df = df.groupby(['time']).agg(lat_max=('lat', px.max))
+    df = df.groupby(['pid']).agg(lat_max=('lat', px.max))
     # Threshold
     df = df[df['lat_max'] > 0]
     return df

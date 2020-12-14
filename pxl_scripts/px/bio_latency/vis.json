@@ -15,23 +15,23 @@
             "position": {
                 "x": 0,
                 "y": 0,
-                "w": 12,
-                "h": 5
+                "w": 6,
+                "h": 2
             },
             "globalFuncOutputName": "results",
             "displaySpec": {
-                "@type": "pixielabs.ai/pl.vispb.TimeseriesChart",
-                "timeseries": [
-                    {
-                        "value": "lat_max",
-                        "mode": "MODE_LINE"
-                    }
-                ],
-                "title": "",
-                "yAxis": {
-                    "label": "Block I/O latency (ms)"
+                "@type": "pixielabs.ai/pl.vispb.BarChart",
+                "bar": {
+                    "value": "lat_max",
+                    "label": "pid",
+                    "horizontal": true
                 },
-                "xAxis": null
+                "xAxis": {
+                    "label": "Block I/O latency (max)"
+                },
+                "yAxis": {
+                    "label": "PID"
+                }
             }
         }
     ]
