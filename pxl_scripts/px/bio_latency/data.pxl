@@ -1,0 +1,50 @@
+# Copyright (c) Alok Nandan Nikhil.
+# Licensed under the Apache License, Version 2.0 (the "License")
+
+import pxtrace
+import px
+
+program = """
+kprobe:blk_account_io_start
+{
+        @start[arg0] = nsecs;
+        @iopid[arg0] = pid;
+        @iocomm[arg0] = comm;
+}
+
+kprobe:blk_account_io_done
+/@start[arg0] != 0 && @iopid[arg0] != 0 && @iocomm[arg0] != ""/
+{
+        $now = nsecs;
+        printf("time:%llu pid:%u lat:%llu",
+            nsecs, @iopid[arg0], ($now - @start[arg0]) / 1e6);
+
+        delete(@start[arg0]);
+        delete(@iopid[arg0]);
+        delete(@iocomm[arg0]);
+}
+
+END
+{
+        clear(@start);
+        clear(@iopid);
+        clear(@iocomm);
+}
+"""
+
+
+def bio_latency_func():
+    table_name = 'bio_latency'
+    pxtrace.UpsertTracepoint('bio_latency_tracer',
+                             table_name,
+                             program,
+                             pxtrace.kprobe(),
+                             "10m")
+    df = px.DataFrame(table=table_name,
+                      select=['time', 'pid', 'lat'])
+
+    # Group-by PID (max latency)
+    df = df.groupby(['time']).agg(lat_max=('lat', px.max))
+    # Threshold
+    df = df[df['lat_max'] > 0]
+    return df

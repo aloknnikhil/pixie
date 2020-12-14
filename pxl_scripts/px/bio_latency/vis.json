@@ -1,0 +1,38 @@
+{
+    "variables": [],
+    "globalFuncs": [
+        {
+            "outputName": "results",
+            "func": {
+                "name": "bio_latency_func",
+                "args": []
+            }
+        }
+    ],
+    "widgets": [
+        {
+            "name": "Results",
+            "position": {
+                "x": 0,
+                "y": 0,
+                "w": 12,
+                "h": 5
+            },
+            "globalFuncOutputName": "results",
+            "displaySpec": {
+                "@type": "pixielabs.ai/pl.vispb.TimeseriesChart",
+                "timeseries": [
+                    {
+                        "value": "lat_max",
+                        "mode": "MODE_LINE"
+                    }
+                ],
+                "title": "",
+                "yAxis": {
+                    "label": "Block I/O latency (ms)"
+                },
+                "xAxis": null
+            }
+        }
+    ]
+}

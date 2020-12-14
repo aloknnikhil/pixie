@@ -1,0 +1,3 @@
+---
+short: Block I/O latency
+long: Shows the block I/O latency for requests in the pod
